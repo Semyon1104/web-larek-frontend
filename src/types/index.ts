@@ -24,7 +24,6 @@ export type ApiErrorResponse = {
 
 
 
-
 export type Product = {
     id: string;
     title: string;
@@ -47,6 +46,8 @@ export type Order = {
     id: string;
     items: CartItem[];
     total: number;
+    paymentMethod: "online" | "cash" | "card";
+    address: string;
 };
 
 export type User = {
