@@ -1,48 +1,37 @@
+
 export type ApiProduct = {
     id: string;
-    name: string;
+    title: string;
     description: string;
-    price: number;
+    image: string;
     category: string;
-    imageUrl: string;
+    price: number | null;
 };
 
-export type ApiCartItem = {
-    product: ApiProduct;
-    quantity: number;
+export type ApiProductList = {
+    total: number;
+    items: ApiProduct[];
 };
 
-export type ApiCart = {
-    items: ApiCartItem[];
-};
-
-export type ApiOrder = {
+export type ApiOrderResponse = {
     id: string;
-    items: ApiCartItem[];
-    totalAmount: number;
-    status: "pending" | "shipped" | "delivered" | "cancelled";
-    createdAt: string;
+    total: number;
 };
 
-export type ApiUser = {
-    id: string;
-    email: string;
-    phone: string;
+export type ApiErrorResponse = {
+    error: string;
 };
 
-export type ApiResponse<T> = {
-    success: boolean;
-    data: T;
-};
+
 
 
 export type Product = {
     id: string;
     title: string;
     details: string;
-    price: number;
-    category: string;
     image: string;
+    category: string;
+    price: number | null;
 };
 
 export type CartItem = {
@@ -58,8 +47,6 @@ export type Order = {
     id: string;
     items: CartItem[];
     total: number;
-    status: "pending" | "shipped" | "delivered" | "cancelled";
-    date: Date;
 };
 
 export type User = {
@@ -68,30 +55,12 @@ export type User = {
     phone: string;
 };
 
+
 export const transformProduct = (apiProduct: ApiProduct): Product => ({
     id: apiProduct.id,
-    title: apiProduct.name,
+    title: apiProduct.title,
     details: apiProduct.description,
-    price: apiProduct.price,
+    image: apiProduct.image,
     category: apiProduct.category,
-    image: apiProduct.imageUrl,
-});
-
-export const transformCartItem = (apiCartItem: ApiCartItem): CartItem => ({
-    product: transformProduct(apiCartItem.product),
-    quantity: apiCartItem.quantity,
-});
-
-export const transformOrder = (apiOrder: ApiOrder): Order => ({
-    id: apiOrder.id,
-    items: apiOrder.items.map(transformCartItem),
-    total: apiOrder.totalAmount,
-    status: apiOrder.status,
-    date: new Date(apiOrder.createdAt),
-});
-
-export const transformUser = (apiUser: ApiUser): User => ({
-    id: apiUser.id,
-    email: apiUser.email,
-    phone: apiUser.phone,
+    price: apiProduct.price,
 });
