@@ -1,5 +1,3 @@
-// src/models/BasketModel.ts
-
 import { IEvents } from '../components/base/events';
 
 export interface IBasketModel {

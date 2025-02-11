@@ -1,5 +1,3 @@
-// src/views/BasketView.ts
-
 import { IView } from './BasketItemView';
 
 export class BasketView implements IView {

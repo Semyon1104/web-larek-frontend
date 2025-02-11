@@ -1,67 +1,42 @@
-
-export type ApiProduct = {
+export interface IProductItem {
     id: string;
     title: string;
     description: string;
-    image: string;
     category: string;
-    price: number | null;
-};
-
-export type ApiProductList = {
-    total: number;
-    items: ApiProduct[];
-};
-
-export type ApiOrderResponse = {
-    id: string;
-    total: number;
-};
-
-export type ApiErrorResponse = {
-    error: string;
-};
-
-
-
-export type Product = {
-    id: string;
-    title: string;
-    details: string;
     image: string;
-    category: string;
     price: number | null;
-};
-
-export type CartItem = {
-    product: Product;
-    quantity: number;
-};
-
-export type Cart = {
-    items: CartItem[];
-};
-
-export type Order = {
+  }
+  
+  export interface IAppState {
+    catalog: IProductItem[];
+    preview: string;
+    basket: string[];
+    order: IOrder;
+    total: string | number;
+    loading: boolean;
+  }
+  
+  
+  export interface IProductsList {
+    products: IProductItem[];
+  }
+  
+  
+  export interface IOrderForm {
+    payment?: string;
+    address?: string;
+    phone?: string;
+    email?: string;
+    total?: string | number;
+  }
+  
+  export interface IOrder extends IOrderForm {
+    items: string[];
+  }
+  
+  
+  export type FormErrors = Partial<Record<keyof IOrder, string>>;
+  
+  export interface IOrderResult {
     id: string;
-    items: CartItem[];
-    total: number;
-    paymentMethod: "online" | "cash" | "card";
-    address: string;
-};
-
-export type User = {
-    id: string;
-    email: string;
-    phone: string;
-};
-
-
-export const transformProduct = (apiProduct: ApiProduct): Product => ({
-    id: apiProduct.id,
-    title: apiProduct.title,
-    details: apiProduct.description,
-    image: apiProduct.image,
-    category: apiProduct.category,
-    price: apiProduct.price,
-});
+  }

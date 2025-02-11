@@ -1,13 +1,13 @@
-// src/index.ts
-
-import './scss/styles.scss'; // Подключение стилей
+import './scss/styles.scss';
 import { Api } from './components/base/api';
+import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter, IEvents } from './components/base/events';
 import { BasketModel } from './models/BasketModel';
 import { CatalogModel } from './models/CatalogModel';
 import { BasketView } from './views/BasketView';
 import { BasketItemView } from './views/BasketItemView';
-import { transformProduct } from './types';
+import { CatalogView } from './views/CatalogView';
+import { Product, transformProduct } from './types';
 
 // Создаём экземпляр брокера событий
 const events: IEvents = new EventEmitter();
@@ -16,22 +16,23 @@ const events: IEvents = new EventEmitter();
 const basketModel = new BasketModel(events);
 const catalogModel = new CatalogModel();
 
-// Создаём представление для корзины (предполагаем, что в верстке есть элемент с классом .basket)
+// Получаем контейнер для каталога (предполагается, что в HTML есть элемент с классом .catalog)
+const catalogContainer = document.querySelector('.catalog') as HTMLElement;
+const catalogView = new CatalogView(catalogContainer);
+
+// Получаем контейнер для корзины (предполагается, что в HTML есть элемент с классом .basket)
 const basketContainer = document.querySelector('.basket') as HTMLElement;
 const basketView = new BasketView(basketContainer);
 
-// Создаём API-клиент (укажите правильный baseUrl)
-const api = new Api('http://localhost:3000/api/weblarek');
+// Создаём API-клиент, используя URL из переменной окружения или fallback
+const api = new Api(API_URL);
 
-// Функция для отрисовки корзины по списку id товаров
+// Функция для отрисовки корзины (пример, аналогичная уже реализованной)
 function renderBasket(itemIds: string[]) {
-  // Для каждого id товара создаём представление элемента корзины
   const items: HTMLElement[] = itemIds.map(id => {
     const product = catalogModel.getProduct(id);
-    // Создаём контейнер для элемента корзины
     const container = document.createElement('div');
     container.className = 'basket-item';
-    // Создаём необходимые дочерние элементы (название, кнопки добавления/удаления)
     const titleElem = document.createElement('span');
     titleElem.className = 'basket-item_title';
     const addButton = document.createElement('button');
@@ -66,11 +67,15 @@ events.on('ui:basket-remove', (data: { id: string }) => {
 });
 
 // Загружаем каталог товаров через API
-api.get('/product/')
+api.get('/product')
   .then(response => {
     // Предполагаем, что сервер возвращает объект { total, items }
     const apiResponse = response as { total: number; items: any[] };
     const products = apiResponse.items.map(item => transformProduct(item));
     catalogModel.setItems(products);
+    console.log('Products loaded:', catalogModel.items);
+
+    // Отрисовываем каталог, передавая товары в CatalogView
+    catalogView.render({ products: catalogModel.items });
   })
   .catch(err => console.error(err));

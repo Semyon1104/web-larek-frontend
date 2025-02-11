@@ -1,5 +1,3 @@
-// src/models/CatalogModel.ts
-
 import { Product } from '../types';
 
 export interface ICatalogModel {
