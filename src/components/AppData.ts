@@ -1,7 +1,7 @@
-import { FormErrors, IAppState, IOrder, IOrderForm, IProductItem } from "../types";
-import { Model } from "./base/Model";
+import { FormErrors, IServiceElems, IOrder, IOrderForm, IProduct } from "../types";
+import { Model } from "./Model";
 
-export class AppData extends Model<IAppState> {
+export class AppData extends Model<IServiceElems> {
   catalog: Product[];
   preview: string;
   basket: Product[] = [];
@@ -31,7 +31,7 @@ export class AppData extends Model<IAppState> {
     }
   }
 
-  setCatalog(items: IProductItem[]) {
+  setCatalog(items: IProduct[]) {
     this.catalog = items.map(item => new Product(item, this.events));
     this.emitChanges('items:changed', { catalog: this.catalog });
   }
@@ -111,7 +111,7 @@ export class AppData extends Model<IAppState> {
 }
 
 
-export class Product extends Model<IProductItem> {
+export class Product extends Model<IProduct> {
   id: string;
   title: string;
   description: string;

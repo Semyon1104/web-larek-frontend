@@ -53,7 +53,7 @@ emitter.on('items:changed', () => {
     return card.render({
       title: item.title,
       category: item.category,
-      image: api.cdn + item.image,
+      image: api.cdn_url + item.image,
       price: item.price
     });
   })
@@ -73,7 +73,7 @@ emitter.on('preview:changed', (item: Product) => {
   modal.render({
     content: card.render({
       title: item.title,
-      image: api.cdn + item.image,
+      image: api.cdn_url + item.image,
       text: item.description,
       price: item.price,
       category: item.category

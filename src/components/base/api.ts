@@ -1,4 +1,4 @@
-import { IOrder, IOrderResult, IProductItem } from "../../types";
+import { IOrder, IOrderResult, IProduct } from "../../types";
 
 export type ApiListResponse<Type> = {
     total: number,
@@ -44,15 +44,15 @@ export class Api {
 }
 
 export class ProductApi extends Api {
-    cdn: string;
+    cdn_url: string;
   
     constructor(cdn: string, baseUrl: string, options?: RequestInit) {
       super(baseUrl, options)
-      this.cdn = cdn;
+      this.cdn_url = cdn;
     }
     getCatalog() {
       return this.get('/product')
-        .then((data: ApiListResponse<IProductItem>) => {
+        .then((data: ApiListResponse<IProduct>) => {
           return data.items.map((item) => ({ ...item }))
         })
     }

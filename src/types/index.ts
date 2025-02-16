@@ -1,4 +1,4 @@
-export interface IProductItem {
+export interface IProduct {
   id: string;
   title: string;
   description: string;
@@ -7,20 +7,14 @@ export interface IProductItem {
   price: number | null;
 }
 
-export interface IAppState {
-  catalog: IProductItem[];
+export interface IServiceElems {
+  catalog: IProduct[];
   preview: string;
   basket: string[];
   order: IOrder;
   total: string | number;
   loading: boolean;
 }
-
-
-export interface IProductsList {
-  products: IProductItem[];
-}
-
 
 export interface IOrderForm {
   payment?: string;
@@ -33,8 +27,6 @@ export interface IOrderForm {
 export interface IOrder extends IOrderForm {
   items: string[];
 }
-
-
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 export interface IOrderResult {
