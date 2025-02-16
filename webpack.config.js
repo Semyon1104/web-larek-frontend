@@ -1,5 +1,4 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
+const process = require("process");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -37,7 +36,7 @@ const config = {
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     new DefinePlugin({
       'process.env.DEVELOPMENT': !isProduction,
-      'process.env.API_ORIGIN': JSON.stringify(process.env.API_ORIGIN ?? '')
+      'process.env.API_ORIGIN': JSON.stringify(process.env.API_ORIGIN ?? 'https://larek-api.nomoreparties.co')
     })
   ],
   module: {
