@@ -6,25 +6,29 @@ interface ISuccess {
 }
 
 interface ISuccessActions {
-  onClick: () => void;
+  onClose: () => void;
 }
 
 export class Success extends Component<ISuccess> {
-  protected _total: HTMLElement;
-  protected _close: HTMLElement;
+  protected totalDescription: HTMLElement;
+  protected closeButton: HTMLElement;
 
   constructor(container: HTMLElement, actions: ISuccessActions) {
-      super(container);
+    super(container);
 
-      this._close = ensureElement<HTMLElement>('.order-success__close', this.container);
-      this._total = ensureElement<HTMLElement>('.order-success__description', this.container)
+    this.closeButton = ensureElement<HTMLElement>('.order-success__close', container);
+    this.totalDescription = ensureElement<HTMLElement>('.order-success__description', container);
 
-      if (actions?.onClick) {
-          this._close.addEventListener('click', actions.onClick);
-      }
+    this.attachEventListeners(actions);
+  }
+
+  private attachEventListeners(actions: ISuccessActions) {
+    if (actions?.onClose) {
+      this.closeButton.addEventListener('click', actions.onClose);
+    }
   }
 
   set total(value: string) {
-    this._total.textContent = `Списано ${value} синапсов`;
+    this.totalDescription.textContent = `Списано ${value} синапсов`;
   }
 }

@@ -1,5 +1,16 @@
 import { FormErrors, IServiceElems, IOrder, IOrderForm, IProduct } from "../types";
-import { Model } from "./Model";
+
+import { IEvents } from "./base/events";
+
+export abstract class Model<T> {
+  constructor(data: Partial<T>, protected events: IEvents) {
+    Object.assign(this, data);
+  }
+
+  emitChanges(event: string, payload?: object) {
+      this.events.emit(event, payload ?? {});
+  }
+}
 
 export class AppData extends Model<IServiceElems> {
   catalog: Product[];

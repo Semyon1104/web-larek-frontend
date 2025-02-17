@@ -23,7 +23,7 @@ export class Order extends Form<IOrderForm> {
 
   set payment(name: string) {
     this._buttons.forEach(button => {
-      this.toggleClass(button, 'button_alt-active', button.name === name);
+      this.updateClass(button, 'button_alt-active', button.name === name);
     });
   }
 

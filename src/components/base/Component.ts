@@ -1,34 +1,33 @@
 export abstract class Component<T> {
   protected constructor(protected readonly container: HTMLElement) {}
 
-  toggleClass(element: HTMLElement, className: string, force?: boolean) {
+  protected updateClass(element: HTMLElement, className: string, force?: boolean): void {
     element.classList.toggle(className, force);
   }
 
-  setDisabled(element: HTMLElement, state: boolean) {
+  setDisabledState(element: HTMLElement, isDisabled: boolean): void {
     if (element) {
-      if (state) element.setAttribute('disabled', 'disabled');
-      else element.removeAttribute('disabled');
+      isDisabled ? element.setAttribute('disabled', 'disabled') : element.removeAttribute('disabled');
     }
   }
 
-  protected setText(element: HTMLElement, value: unknown) {
+  protected updateTextContent(element: HTMLElement, text: unknown): void {
     if (element) {
-      element.textContent = String(value);
+      element.textContent = String(text);
     }
   }
 
-  protected setImage(element: HTMLImageElement, src: string, alt?: string) {
-    if(element) {
-      element.src = src;
-      if(alt) {
-        element.alt = alt;
-      }
+  protected updateImage(element: HTMLImageElement, source: string, alternativeText: string = ''): void {
+    if (element) {
+      element.src = source;
+      element.alt = alternativeText;
     }
   }
 
-  render(data?: Partial<T>): HTMLElement {
-      Object.assign(this as object, data ?? {});
-      return this.container;
+  render(props?: Partial<T>): HTMLElement {
+    if (props) {
+      Object.assign(this as object, props);
+    }
+    return this.container;
   }
 }

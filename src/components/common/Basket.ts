@@ -1,7 +1,6 @@
-import { createElement, ensureElement, formatNumber} from "../../utils/utils";
+import { createElement, ensureElement, formatNumber } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { EventEmitter } from "../base/events";
-
 
 interface IBasket {
   items: HTMLElement[];
@@ -9,37 +8,35 @@ interface IBasket {
 }
 
 export class Basket extends Component<IBasket> {
-  protected _list: HTMLElement;
-  protected _total: HTMLElement;
-  button: HTMLElement;
+  protected itemList: HTMLElement;
+  protected totalPrice: HTMLElement;
+  actionButton: HTMLElement;
 
-  constructor(container: HTMLElement, protected events: EventEmitter) {
+  constructor(container: HTMLElement, protected eventEmitter: EventEmitter) {
     super(container);
 
-    this._list = ensureElement<HTMLElement>('.basket__list', this.container);
-    this._total = this.container.querySelector('.basket__price');
-    this.button = this.container.querySelector('.basket__button');
+    this.itemList = ensureElement<HTMLElement>('.basket__list', this.container);
+    this.totalPrice = ensureElement<HTMLElement>('.basket__price', this.container);
+    this.actionButton = ensureElement<HTMLElement>('.basket__button', this.container);
 
-    if (this.button) {
-      this.button.addEventListener('click', () => {
-        events.emit('order:open');
-      });
-    }
+    this.actionButton.addEventListener('click', () => {
+      this.eventEmitter.emit('order:open');
+    });
 
     this.items = [];
   }
 
-  set items(items: HTMLElement[]) {
-    if (items.length) {
-      this._list.replaceChildren(...items);
-    } else {
-      this._list.replaceChildren(createElement<HTMLParagraphElement>('p', {
-        textContent: 'Корзина пуста'
-      }));
-    }
+  set items(elements: HTMLElement[]) {
+    this.itemList.replaceChildren(
+      ...(elements.length ? elements : [this.createEmptyMessage()])
+    );
   }
 
-  set total(total: number) {
-    this.setText(this._total, `${total} синапсов`);
+  set total(amount: number) {
+    this.updateTextContent(this.totalPrice, `${amount} синапсов`);
+  }
+
+  private createEmptyMessage(): HTMLElement {
+    return createElement<HTMLParagraphElement>('p', { textContent: 'Корзина пуста' });
   }
 }

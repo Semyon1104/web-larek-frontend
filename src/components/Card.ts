@@ -41,23 +41,23 @@ export class Card<T> extends Component<ICard> {
   }
 
   set title(value: string) {
-    this.setText(this._title, value);
+    this.updateTextContent(this._title, value);
   }
 
   set category(value: string) {
-    this.setText(this._category, value);
+    this.updateTextContent(this._category, value);
     this._category.className = `card__category card__category_${this._categoryColor[value]}`
   }
 
   set image(value: string) {
-    this.setImage(this._image, value, this.title);
+    this.updateImage(this._image, value, this.title);
   }
 
   set price(value: string) {
     if(value === null) {
-      this.setText(this._price, `Бесценно`);
+      this.updateTextContent(this._price, `Бесценно`);
     } else {
-      this.setText(this._price, `${value} синапсов`);
+      this.updateTextContent(this._price, `${value} синапсов`);
     }
   }
 }
@@ -84,7 +84,7 @@ export class CardPreview extends Card<ICardPreview> {
   }
 
   set text(value: string) {
-    this.setText(this._text, value);
+    this.updateTextContent(this._text, value);
   }
 }
 
@@ -116,18 +116,18 @@ export class CardBasket extends Component<ICardBasket> {
   }
 
   set index(value: number) {
-    this.setText(this._index, value);
+    this.updateTextContent(this._index, value);
   }
 
   set title(value: string) {
-    this.setText(this._title, value);
+    this.updateTextContent(this._title, value);
   }
 
   set price(value: string) {
     if(value === null) {
-      this.setText(this._price, `Бесценно`);
+      this.updateTextContent(this._price, `Бесценно`);
     } else {
-      this.setText(this._price, `${value} синапсов`);
+      this.updateTextContent(this._price, `${value} синапсов`);
     }
   }
 }
